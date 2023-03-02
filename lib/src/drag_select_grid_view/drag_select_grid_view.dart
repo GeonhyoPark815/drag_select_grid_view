@@ -298,7 +298,7 @@ class DragSelectGridViewState extends State<DragSelectGridView>
 
   void _handleLongPressStart(LongPressStartDetails details) {
     final controller = _gridController;
-    if (controller != null) {
+    if (controller != null && !isDragging) {
       controller!.clear();
     }
     final pressIndex = _findIndexOfSelectable(details.localPosition);
