@@ -196,6 +196,7 @@ class DragSelectGridViewState extends State<DragSelectGridView>
   final _selectionManager = SelectionManager();
   LongPressMoveUpdateDetails? _lastMoveUpdateDetails;
   LocalHistoryEntry? _historyEntry;
+  bool isSelectionDone = false;
 
   DragSelectGridViewController? get _gridController => widget.gridController;
 
@@ -297,10 +298,7 @@ class DragSelectGridViewState extends State<DragSelectGridView>
   }
 
   void _handleLongPressStart(LongPressStartDetails details) {
-    final controller = _gridController;
-    if (controller != null && !isDragging) {
-      controller!.clear();
-    }
+    if(isSelectionDone) return;
     final pressIndex = _findIndexOfSelectable(details.localPosition);
 
     if (pressIndex != -1) {
@@ -311,7 +309,7 @@ class DragSelectGridViewState extends State<DragSelectGridView>
   }
 
   void _handleLongPressMoveUpdate(LongPressMoveUpdateDetails details) {
-    if (!isDragging) return;
+    if (!isDragging || isSelectionDone) return;
 
     _lastMoveUpdateDetails = details;
     final dragIndex = _findIndexOfSelectable(details.localPosition);
@@ -341,6 +339,7 @@ class DragSelectGridViewState extends State<DragSelectGridView>
   void _handleLongPressEnd(LongPressEndDetails details) {
     setState(_selectionManager.endDrag);
     stopScrolling();
+    isSelectionDone = true;
   }
 
   void _updateLocalHistory() {
