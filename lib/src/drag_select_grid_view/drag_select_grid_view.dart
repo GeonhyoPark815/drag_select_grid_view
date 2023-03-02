@@ -309,7 +309,7 @@ class DragSelectGridViewState extends State<DragSelectGridView>
   }
 
   void _handleLongPressMoveUpdate(LongPressMoveUpdateDetails details) {
-    if (!isDragging || isSelectionDone) return;
+    if (!isDragging) return;
 
     _lastMoveUpdateDetails = details;
     final dragIndex = _findIndexOfSelectable(details.localPosition);
@@ -340,6 +340,7 @@ class DragSelectGridViewState extends State<DragSelectGridView>
     setState(_selectionManager.endDrag);
     stopScrolling();
     isSelectionDone = true;
+    print("Selection Done");
   }
 
   void _updateLocalHistory() {
