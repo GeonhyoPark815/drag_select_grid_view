@@ -242,7 +242,6 @@ class DragSelectGridViewState extends State<DragSelectGridView>
   Widget build(BuildContext context) {
     super.build(context);
     return GestureDetector(
-      // onTapUp: _handleTapUp,
       onLongPressStart: _handleLongPressStart,
       onLongPressMoveUpdate: _handleLongPressMoveUpdate,
       onLongPressEnd: _handleLongPressEnd,
@@ -297,19 +296,8 @@ class DragSelectGridViewState extends State<DragSelectGridView>
     }
   }
 
-  void _handleTapUp(TapUpDetails details) {
-    if (isSelecting || widget.triggerSelectionOnTap) {
-      final tapIndex = _findIndexOfSelectable(details.localPosition);
-
-      if (tapIndex != -1) {
-        setState(() => _selectionManager.tap(tapIndex));
-        _notifySelectionChange();
-        _updateLocalHistory();
-      }
-    }
-  }
-
   void _handleLongPressStart(LongPressStartDetails details) {
+    _gridController.clear();
     final pressIndex = _findIndexOfSelectable(details.localPosition);
 
     if (pressIndex != -1) {
